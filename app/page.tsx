@@ -143,22 +143,18 @@ const toggleMusic = () => {
               onClick={async () => {
                 setLoadingEnter(true);
               
-                await supabase.from("guests").insert([
+                const { error } = await supabase.from("guests").insert([
                   {
                     name: guestName,
                   },
                 ]);
+                
+                console.log(error);
               
                 localStorage.setItem("guestName", guestName);
               
                 setTimeout(() => {
                   localStorage.setItem("guestName", guestName);
-                
-                  await supabase.from("guests").insert([
-                    {
-                      name: guestName,
-                    },
-                  ]);
                 
                   setEntered(true);
                 }, 900);
