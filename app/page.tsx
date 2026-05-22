@@ -452,9 +452,10 @@ setPreviewUrl(URL.createObjectURL(file));
   />
 )}
 
-        <button
+<button
+  disabled={isUploading}
           onClick={uploadPhoto}
-          className="mt-4 w-full rounded-full bg-[#FFE7EF] py-3 text-[#B86B84] font-medium"
+          className="mt-4 w-full rounded-full bg-[#FFE7EF] py-3 text-[#B86B84] font-medium transition active:scale-[0.98] hover:opacity-90"
         >
           {isUploading ? "Subiendo..." : "Subir selfie 📸"}
         </button>
@@ -951,12 +952,12 @@ setIsUploading(false);
         />
 
   
-        <button
-          onClick={sendMessage}
-          className="mt-4 w-full bg-[#F7D7C4] rounded-full py-3 text-[#6B4F4B]"
-        >
-          Enviar mensaje
-        </button>
+<button
+  onClick={sendMessage}
+  className="mt-4 w-full bg-[#F7D7C4] rounded-full py-3 text-[#6B4F4B] transition active:scale-[0.98] hover:opacity-90"
+>
+  Enviar mensaje
+</button>
       </div>
   
       <div className="grid gap-4">
@@ -983,6 +984,24 @@ setIsUploading(false);
         </div>
         ))}
       </div>
+
+      <div className="mt-8 bg-white/55 backdrop-blur-[30px] rounded-[36px] p-7 border border-white/60 shadow-[0_18px_45px_rgba(212,184,170,0.22)] text-center">
+  <div className="text-4xl mb-3">🐝🤍</div>
+
+  <h3 className="text-[#B07C74] text-[22px] font-semibold mb-3">
+    Gracias por acompañarnos
+  </h3>
+
+  <p className="text-[#8F6E68] leading-relaxed text-[15px]">
+    Cada mensaje, selfie y abrazo forma parte de un recuerdo
+    que guardaremos para siempre.
+  </p>
+
+  <p className="mt-4 text-[#C49B93] italic text-[14px]">
+    Con amor, Sol, Lia y Luciano ✨
+  </p>
+</div>
+
     </section>
   );
   }
