@@ -28,17 +28,6 @@ export default function Home() {
   const [entered, setEntered] = useState(false);
   const [guestName, setGuestName] = useState("");
   const [section, setSection] = useState<Section>("inicio");
-
-  const [loadingScreen, setLoadingScreen] = useState(true);
-
-useEffect(() => {
-  const timer = setTimeout(() => {
-    setLoadingScreen(false);
-  }, 1800);
-
-  return () => clearTimeout(timer);
-}, []);
-
   const [loadingEnter, setLoadingEnter] = useState(false);
 
   const audioRef = useRef<HTMLAudioElement | null>(null);
@@ -53,25 +42,7 @@ useEffect(() => {
       setEntered(true);
     }
   }, []);
-
-  if (loadingScreen) {
-    return (
-      <main className="min-h-screen bg-[#FFF8F4] flex items-center justify-center">
-        <div className="text-center animate-pulse">
-          <div className="text-6xl mb-4">🐝</div>
   
-          <h1 className="text-[42px] font-serif text-[#B8887D] leading-none">
-            Lia
-          </h1>
-  
-          <p className="mt-3 text-[#C6A59D] text-sm tracking-[0.25em] uppercase">
-            Baby Shower
-          </p>
-        </div>
-      </main>
-    );
-  }
-
 const toggleMusic = () => {
   if (!audioRef.current) return;
 
