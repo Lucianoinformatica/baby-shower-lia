@@ -350,6 +350,7 @@ function Selfies() {
 
   const [isUploading, setIsUploading] = useState(false);
 const [uploadStatus, setUploadStatus] = useState("");
+const [previewUrl, setPreviewUrl] = useState("");
   useEffect(() => {
     fetchPhotos();
   }, []);
@@ -405,18 +406,23 @@ const [uploadStatus, setUploadStatus] = useState("");
     <section>
       <Header
         title="Selfie antes de salir 📸"
-        text="Subí una fotito para la galería del evento."
+        text=""
       />
 
+<p className="text-center text-sm text-[#A07C74] leading-relaxed mb-5">
+  Antes de salir, dejanos una selfie ✨<br />
+  Queremos guardar un recuerdo lindo de este día 💖
+</p>
+
       <div className="bg-white rounded-[32px] p-6 shadow-sm border border-[#F5E6DC] text-center mb-5">
-        <div className="text-5xl mb-3">🤳</div>
+        <div className="text-5xl mb-5">🤳</div>
 
         <p className="text-sm text-[#A07C74] mb-4">
           Elegí una foto desde tu celular o compu.
         </p>
 
         <label className="inline-flex cursor-pointer items-center justify-center rounded-full bg-[#F7D7C4] px-8 py-3 text-[#7A5C58]">
-          Seleccionar foto
+        Tomar selfie ✨
           <input
   type="file"
   accept="image/*"
@@ -427,6 +433,7 @@ const [uploadStatus, setUploadStatus] = useState("");
 
     if (file) {
       setSelectedFile(file);
+setPreviewUrl(URL.createObjectURL(file));
     }
   }}
 />
@@ -437,6 +444,13 @@ const [uploadStatus, setUploadStatus] = useState("");
             Foto seleccionada: {selectedFile.name}
           </p>
         )}
+        {previewUrl && (
+  <img
+    src={previewUrl}
+    alt="Preview selfie"
+    className="w-40 h-40 object-cover rounded-3xl mx-auto mt-4 shadow-md border border-[#F5E6DC]"
+  />
+)}
 
         <button
           onClick={uploadPhoto}
@@ -829,8 +843,10 @@ function Lia({ guestName }: { guestName: string }) {
 const [photos, setPhotos] = useState<string[]>([]);
 const [isUploading, setIsUploading] = useState(false);
 const [uploadStatus, setUploadStatus] = useState("");
+const [previewUrl, setPreviewUrl] = useState("");
 
-  const icons = ["🤍", "💛", "💗", "🧸", "🌼", "😊", "🥰", "😍", "✨", "🎀"];
+  const icons = ["🤍", "💛", "💗", "🧸", "🌼", "😊", "🥰", "😍", "🐝", "✨", "🎀"];
+  const totalMessages = messages.length;
 
   useEffect(() => {
     fetchMessages();
@@ -907,6 +923,12 @@ setIsUploading(false);
         title="Mensajes para Lia 💌"
         text="Dejá un deseo para que quede guardado como recuerdo."
       />
+
+<div className="text-center mb-5">
+  <p className="text-sm text-[#B88B7D]">
+    Ya hay <span className="font-semibold">{totalMessages}</span> mensajitos llenos de amor ✨
+  </p>
+</div>
   
       <div className="bg-white rounded-[32px] p-5 shadow-sm border border-[#F5E6DC] mb-5">
         <div className="flex flex-wrap gap-2 mb-4">
@@ -940,23 +962,25 @@ setIsUploading(false);
       <div className="grid gap-4">
         {messages.map((item, index) => (
           <div
-            key={index}
-            className="bg-white/45 backdrop-blur-[28px] rounded-[34px] p-5 border border-white/55 shadow-[0_18px_45px_rgba(212,184,170,0.18)] transition-all duration-300 hover:scale-[1.01] hover:rotate-[-1deg]"
-          >
-            <p className="text-[#7A5C58] text-[15px] leading-[1.8] tracking-[0.01em]">
-              {item.text}
+          key={index}
+          className="relative overflow-hidden bg-white/55 backdrop-blur-[30px] rounded-[34px] p-5 border border-white/60 shadow-[0_18px_45px_rgba(212,184,170,0.22)]"
+        >
+          <div className="absolute -top-8 -right-8 w-24 h-24 bg-[#FFE4EF] rounded-full blur-2xl opacity-60" />
+        
+          <p className="relative text-[#7A5C58] text-[15px] leading-[1.8] tracking-[0.01em]">
+            {item.text}
+          </p>
+        
+          <div className="relative mt-5 flex items-center justify-between border-t border-[#F3DDD5] pt-3">
+            <p className="text-[13px] text-[#A88279] italic font-medium">
+              — {item.author}
             </p>
-  
-            <div className="mt-4 flex items-center justify-between">
-              <p className="text-[13px] text-[#A88279] italic font-medium">
-                — {item.author}
-              </p>
-  
-              <p className="text-[11px] text-[#C6A59D] tracking-wide">
-                {new Date(item.created_at).toLocaleDateString("es-AR")}
-              </p>
-            </div>
+        
+            <p className="text-[11px] text-[#C6A59D] tracking-wide">
+              {new Date(item.created_at).toLocaleDateString("es-AR")}
+            </p>
           </div>
+        </div>
         ))}
       </div>
     </section>
