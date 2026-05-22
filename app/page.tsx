@@ -140,10 +140,18 @@ const toggleMusic = () => {
 
             <button
               disabled={!canEnter}
-              onClick={() => {
+              onClick={async () => {
                 setLoadingEnter(true);
               
-                setTimeout(async () => {
+                await supabase.from("guests").insert([
+                  {
+                    name: guestName,
+                  },
+                ]);
+              
+                localStorage.setItem("guestName", guestName);
+              
+                setTimeout(() => {
                   localStorage.setItem("guestName", guestName);
                 
                   await supabase.from("guests").insert([
