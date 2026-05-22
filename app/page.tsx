@@ -35,6 +35,15 @@ export default function Home() {
 
   const [musicPlaying, setMusicPlaying] = useState(true);
 
+  useEffect(() => {
+    const savedGuest = localStorage.getItem("guestName");
+  
+    if (savedGuest) {
+      setGuestName(savedGuest);
+      setEntered(true);
+    }
+  }, []);
+
 const toggleMusic = () => {
   if (!audioRef.current) return;
 
@@ -134,7 +143,15 @@ const toggleMusic = () => {
               onClick={() => {
                 setLoadingEnter(true);
               
-                setTimeout(() => {
+                setTimeout(async () => {
+                  localStorage.setItem("guestName", guestName);
+                
+                  await supabase.from("guests").insert([
+                    {
+                      name: guestName,
+                    },
+                  ]);
+                
                   setEntered(true);
                 }, 900);
               }}
