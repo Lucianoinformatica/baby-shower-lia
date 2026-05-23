@@ -137,34 +137,40 @@ const toggleMusic = () => {
               className={`${playfair.className} w-full bg-white/40 backdrop-blur-2xl border border-white/55 rounded-[28px] px-6 py-5 text-center text-[20px] text-[#6E514E] placeholder:text-[#C2AAA4] outline-none shadow-[0_12px_30px_rgba(255,220,200,0.20)] focus:bg-white/55 focus:scale-[1.01] focus:border-white/70 transition-all duration-500`}
             />
 
-            <button
-              disabled={!canEnter}
-              onClick={async () => {
-                setLoadingEnter(true);
-              
-                const { error } = await supabase.from("guests").insert([
-                  {
-                    name: guestName,
-                  },
-                ]);
-                
-                console.log(error);
-              
-                localStorage.setItem("guestName", guestName);
-              
-                setTimeout(() => {
-                  localStorage.setItem("guestName", guestName);
-                
-                  setEntered(true);
-                }, 900);
-              }}
-              className="relative overflow-hidden w-full bg-gradient-to-r from-[#F7D7C4] via-[#FFE7D8] to-[#F4CFC4] disabled:opacity-40 rounded-full py-5 text-[#6B4F4B] text-[18px] font-semibold tracking-[0.01em] shadow-[0_18px_38px_rgba(247,215,196,0.38)] active:scale-[0.985] transition-all duration-500"
-            >
-              <span className="flex items-center justify-center gap-2">
-              {loadingEnter ? "Entrando..." : "Entrar al evento"}
-              <span className="text-lg">✨</span>
-              </span>
-            </button>
+<button
+  disabled={!canEnter}
+  onClick={async () => {
+    setLoadingEnter(true);
+
+    const existingGuest = await supabase
+      .from("guests")
+      .select("*")
+      .eq("name", guestName)
+      .maybeSingle();
+
+    if (!existingGuest.data) {
+      await supabase.from("guests").insert([
+        {
+          name: guestName,
+        },
+      ]);
+    }
+
+    localStorage.setItem("guestName", guestName);
+
+    setTimeout(() => {
+      localStorage.setItem("guestName", guestName);
+
+      setEntered(true);
+    }, 900);
+  }}
+  className="relative overflow-hidden w-full bg-gradient-to-r from-[#F7D7C4] via-[#FFE7D8] to-[#F4CFC4] disabled:opacity-40 rounded-[28px] py-5 shadow-[0_18px_40px_rgba(212,184,167,0.35)]"
+>
+  <span className="flex items-center justify-center gap-2">
+    {loadingEnter ? "Entrando..." : "Entrar al evento"}
+    <span className="text-lg">✨</span>
+  </span>
+</button>
 
           </div>
         </div>
