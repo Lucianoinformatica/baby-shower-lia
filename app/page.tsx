@@ -346,6 +346,7 @@ function Inicio({
 function Selfies() {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [photos, setPhotos] = useState<string[]>([]);
+  const [currentPhoto, setCurrentPhoto] = useState(0);
 
   const [isUploading, setIsUploading] = useState(false);
 const [uploadStatus, setUploadStatus] = useState("");
@@ -353,6 +354,18 @@ const [previewUrl, setPreviewUrl] = useState("");
   useEffect(() => {
     fetchPhotos();
   }, []);
+
+  useEffect(() => {
+    if (photos.length === 0) return;
+  
+    const interval = setInterval(() => {
+      setCurrentPhoto((prev) =>
+        prev === photos.length - 1 ? 0 : prev + 1
+      );
+    }, 3500);
+  
+    return () => clearInterval(interval);
+  }, [photos]);
   
   const fetchPhotos = async () => {
     const { data, error } = await supabase.storage
@@ -466,28 +479,29 @@ setPreviewUrl(URL.createObjectURL(file));
 )}
       </div>
 
-      <div className="grid grid-cols-2 gap-4 mt-6">
-        {photos.map((photo, index) => (
-          <div
-          key={index}
-          className="relative bg-white pt-3 px-3 pb-10 rounded-[10px] shadow-[0_18px_40px_rgba(0,0,0,0.14)] rotate-[-2deg] hover:rotate-0 transition-all duration-500"
-        >
-          <img
-  src={photo}
-  alt="Selfie del evento"
-  onError={() => {
-    setPhotos((prev) => prev.filter((item) => item !== photo));
-  }}
-  className="aspect-square w-full rounded-[6px] object-cover"
-/>
+      <div className="relative mt-10 h-[520px] flex items-center justify-center overflow-hidden">
+  {photos.length > 0 && (
+    <div className="relative w-[320px] h-[430px] animate-fadeIn">
+      <div className="absolute inset-0 bg-white rounded-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.12)] rotate-[-3deg]" />
 
-<div className="absolute bottom-3 right-3 text-lg opacity-80">
-  🐝
-</div>
+      <div className="absolute inset-0 bg-white rounded-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.12)] rotate-[3deg]" />
 
+      <div className="relative bg-white p-3 rounded-[28px] shadow-[0_20px_60px_rgba(0,0,0,0.15)]">
+        <img
+          src={photos[currentPhoto]}
+          alt="Selfie"
+          className="w-full h-[330px] object-cover rounded-[20px]"
+        />
+
+        <div className="pt-4 text-center">
+          <p className="text-[#A86B84] text-sm italic">
+            Recuerdo para Lia 🐝
+          </p>
         </div>
-        ))}
       </div>
+    </div>
+  )}
+</div>
     </section>
   );
 }
