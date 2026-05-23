@@ -107,7 +107,7 @@ const toggleMusic = () => {
 
 <div className="absolute bottom-[12%] left-1/2 -translate-x-1/2 w-[360px] h-[360px] bg-[#FCE7F3] opacity-30 blur-[120px] rounded-full pointer-events-none" />
 <div className="relative z-10 w-full max-w-sm">
-<div className="relative overflow-hidden bg-white/55 backdrop-blur-[45px] rounded-[52px] shadow-[0_30px_90px_rgba(212,184,167,0.24)] p-9 text-center border border-white/60 animate-fadeLuxury">
+<div className="relative overflow-hidden bg-white/55 backdrop-blur-md rounded-[52px] shadow-[0_30px_90px_rgba(212,184,167,0.24)] p-9 text-center border border-white/60 animate-fadeLuxury">
 <div className="absolute inset-0 bg-gradient-to-br from-white/25 via-transparent to-[#F7D7C4]/10 pointer-events-none" />
 <div className="absolute top-0 left-10 right-10 h-px bg-white/80" />
 <div className="relative z-10 text-6xl mb-4 animate-softFloat">🌼</div>
@@ -120,7 +120,7 @@ const toggleMusic = () => {
               Baby Shower Experience
             </p>
 
-            <div className="relative z-10 mt-8 bg-gradient-to-br from-[#FFF3EC]/80 via-white/45 to-[#FFE7D8]/55 backdrop-blur-2xl rounded-[38px] p-6 border border-white/60 shadow-[0_18px_45px_rgba(247,215,196,0.24)] animate-[floatSoft_5s_ease-in-out_infinite]">
+            <div className="relative z-10 mt-8 bg-gradient-to-br from-[#FFF3EC]/80 via-white/45 to-[#FFE7D8]/55 backdrop-blur-sm rounded-[38px] p-6 border border-white/60 shadow-[0_18px_45px_rgba(247,215,196,0.24)] animate-[floatSoft_5s_ease-in-out_infinite]">
               <p className="text-sm text-[#9A746D] mb-3">Cada segundo nos acerca a un dia lleno de amor, juegos y recuerdos ✨</p>
               <Countdown />
 
@@ -210,7 +210,7 @@ const toggleMusic = () => {
 
       </button>
 
-  <nav className="fixed z-50 bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-md bg-white/28 backdrop-blur-[40px] border border-white/45 rounded-[34px] shadow-[0_20px_60px_rgba(212,184,167,0.28)] px-3 py-3 flex justify-between items-center overflow-hidden">
+  <nav className="fixed z-50 bottom-5 left-1/2 -translate-x-1/2 w-[92%] max-w-md bg-white/28 backdrop-blur-md border border-white/45 rounded-[34px] shadow-[0_20px_60px_rgba(212,184,167,0.28)] px-3 py-3 flex justify-between items-center overflow-hidden">
   <div className="absolute inset-0 rounded-[34px] bg-gradient-to-br from-white/25 via-transparent to-[#F7D7C4]/10 pointer-events-none" />
     {[
       ["inicio", "🏠", "Inicio"],
@@ -270,7 +270,7 @@ function Inicio({
     <>
       <HeroCard guestName={guestName} />
 
-      <section className="relative overflow-hidden bg-white/35 backdrop-blur-[30px] rounded-[38px] p-6 border border-white/70 shadow-[0_20px_60px_rgba(212,184,167,0.18)]">
+      <section className="relative overflow-hidden bg-white/35 backdrop-blur-md rounded-[38px] p-6 border border-white/70 shadow-[0_20px_60px_rgba(212,184,167,0.18)]">
       <div className="absolute -top-16 -right-12 w-44 h-44 bg-[#FFD9C7] rounded-full blur-[110px] opacity-60 animate-floatLuxury" />
 
 <div className="absolute -bottom-10 -left-10 w-32 h-32 bg-[#FFDCC8] rounded-full blur-3xl opacity-50" />
@@ -280,7 +280,7 @@ function Inicio({
 </div>
       </section>
 
-      <section className="bg-white/25 backdrop-blur-[22px] rounded-[34px] p-5 shadow-[0_10px_30px_rgba(212,184,167,0.14)] border border-white/35 mb-5">
+      <section className="bg-white/25 backdrop-blur-sm rounded-[34px] p-5 shadow-[0_10px_30px_rgba(212,184,167,0.14)] border border-white/35 mb-5">
   <div className="flex items-center gap-4">
     <div className="w-14 h-14 rounded-3xl bg-[#FFF3EC] flex items-center justify-center text-3xl">
       ☁️
@@ -1216,24 +1216,14 @@ function AppBackground() {
     { icon: "⭐", className: "bottom-[38%] left-[72%] text-3xl opacity-65 animate-floatLuxury" },
     { icon: "☁️", className: "bottom-[8%] left-[52%] text-4xl opacity-40 animate-floatLuxury" },
     { icon: "🐝", className: "top-[82%] right-[34%] text-3xl opacity-60 animate-floatLuxury" },
-    { icon: "✨", className: "top-[8%] left-[18%] text-sm opacity-40 animate-floatLuxury" },
-    { icon: "✨", className: "top-[14%] left-[28%] text-sm opacity-35 animate-floatLuxury" },
     { icon: "🌼", className: "top-[18%] left-[52%] text-3xl opacity-40 animate-floatLuxury" },
 
-    { icon: "✨", className: "top-[22%] left-[72%] text-sm opacity-35 animate-floatLuxury" },
-    { icon: "✨", className: "top-[28%] left-[82%] text-sm opacity-40 animate-floatLuxury" },
     { icon: "🌼", className: "top-[34%] left-[24%] text-lg opacity-35 animate-floatLuxury" },
 
-    { icon: "✨", className: "top-[40%] left-[58%] text-sm opacity-35 animate-floatLuxury" },
-    { icon: "✨", className: "top-[46%] left-[78%] text-sm opacity-40 animate-floatLuxury" },
     { icon: "🌼", className: "top-[52%] left-[8%] text-lg opacity-35 animate-floatLuxury" },
 
-    { icon: "✨", className: "top-[58%] left-[36%] text-sm opacity-40 animate-floatLuxury" },
-    { icon: "✨", className: "top-[64%] left-[68%] text-sm opacity-35 animate-floatLuxury" },
     { icon: "🌼", className: "top-[70%] left-[84%] text-lg opacity-35 animate-floatLuxury" },
 
-    { icon: "✨", className: "top-[76%] left-[16%] text-sm opacity-40 animate-floatLuxury" },
-    { icon: "✨", className: "top-[82%] left-[56%] text-sm opacity-35 animate-floatLuxury" },
     { icon: "🌼", className: "bottom-[12%] left-[72%] text-lg opacity-35 animate-floatLuxury" },
     ];
 
