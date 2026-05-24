@@ -658,6 +658,15 @@ const [papaVotes, setPapaVotes] = useState(0);
 
 const totalParecidoVotes = mamaVotes + papaVotes;
 
+const mamaPercent =
+  totalParecidoVotes > 0 ? Math.round((mamaVotes / totalParecidoVotes) * 100) : 0;
+
+const papaPercent =
+  totalParecidoVotes > 0 ? Math.round((papaVotes / totalParecidoVotes) * 100) : 0;
+
+const dormilonaVotes = personalityVote === "dormilona" ? 61 : 54;
+const terremotoVotes = personalityVote === "terremoto" ? 39 : 31;
+
 useEffect(() => {
   fetchVotes();
 }, []);
@@ -767,7 +776,7 @@ const fetchVotes = async () => {
               await fetchVotes();
 
             }}
-            
+
             className={`rounded-[28px] p-4 border transition active:scale-95 hover:scale-[1.02] duration-300 ${
               vote === "papa"
                 ? "bg-[#FFF3EC] border-[#F7D7C4]"
@@ -791,8 +800,8 @@ const fetchVotes = async () => {
             Resultado parcial ✨ · {totalParecidoVotes} votos
             </p>
 
-            <ResultBar label="Mamá" value={mamaVotes} />
-            <ResultBar label="Papá" value={papaVotes} />
+            <ResultBar label="Mamá" value={mamaPercent} />
+<ResultBar label="Papá" value={papaPercent} />
           </div>
         )}
 
