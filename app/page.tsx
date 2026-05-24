@@ -653,8 +653,17 @@ function Predicciones() {
       setVote(savedVote);
       setVoteSent(true);
     }
+  
+    const savedPersonalityVote = localStorage.getItem("vote_personalidad");
+  
+    if (
+      savedPersonalityVote === "dormilona" ||
+      savedPersonalityVote === "terremoto"
+    ) {
+      setPersonalityVote(savedPersonalityVote);
+    }
   }, []);
-  const [birthDate, setBirthDate] = useState("");
+  const [birthDate, setBirthDate] = useState("2026-07-01");
 const [birthDateSent, setBirthDateSent] = useState(false);
 
   const [personalityVote, setPersonalityVote] = useState<
@@ -663,6 +672,8 @@ const [birthDateSent, setBirthDateSent] = useState(false);
 
 const [mamaVotes, setMamaVotes] = useState(0);
 const [papaVotes, setPapaVotes] = useState(0);
+const [dormilonaCount, setDormilonaCount] = useState(0);
+const [terremotoCount, setTerremotoCount] = useState(0);
 
 const totalParecidoVotes = mamaVotes + papaVotes;
 
@@ -672,8 +683,17 @@ const mamaPercent =
 const papaPercent =
   totalParecidoVotes > 0 ? Math.round((papaVotes / totalParecidoVotes) * 100) : 0;
 
-const dormilonaVotes = personalityVote === "dormilona" ? 61 : 54;
-const terremotoVotes = personalityVote === "terremoto" ? 39 : 31;
+  const totalPersonalityVotes = dormilonaCount + terremotoCount;
+
+  const dormilonaPercent =
+    totalPersonalityVotes > 0
+      ? Math.round((dormilonaCount / totalPersonalityVotes) * 100)
+      : 0;
+  
+  const terremotoPercent =
+    totalPersonalityVotes > 0
+      ? Math.round((terremotoCount / totalPersonalityVotes) * 100)
+      : 0;
 
 useEffect(() => {
   fetchVotes();
@@ -683,12 +703,25 @@ const fetchVotes = async () => {
   const { data, error } = await supabase
     .from("votes")
     .select("*")
-    .eq("question", "parecido");
 
   if (error || !data) return;
 
   const mama = data.filter((v) => v.answer === "mama").length;
   const papa = data.filter((v) => v.answer === "papa").length;
+  const dormilona = data.filter(
+    (vote) =>
+      vote.question === "personalidad" &&
+      vote.answer === "dormilona"
+  ).length;
+  
+  const terremoto = data.filter(
+    (vote) =>
+      vote.question === "personalidad" &&
+      vote.answer === "terremoto"
+  ).length;
+  
+  setDormilonaCount(dormilona);
+  setTerremotoCount(terremoto);
 
   setMamaVotes(mama);
   setPapaVotes(papa);
@@ -863,7 +896,22 @@ const fetchVotes = async () => {
   <div className="grid grid-cols-2 gap-3">
     <button
       disabled={personalityVote !== null}
-      onClick={() => setPersonalityVote("dormilona")}
+      onClick={async () => {
+        if (personalityVote) return;
+      
+        setPersonalityVote("dormilona");
+        localStorage.setItem("vote_personalidad", "dormilona");
+      
+        await supabase.from("votes").insert([
+          {
+            guest_name: localStorage.getItem("guestName") || "Invitado",
+            question: "personalidad",
+            answer: "dormilona",
+          },
+        ]);
+      
+        fetchVotes();
+      }}
       className={`rounded-[22px] p-3 border transition active:scale-95 hover:scale-[1.02] duration-300 ${
         personalityVote === "dormilona"
           ? "bg-[#FFF3EC] border-[#F7D7C4]"
@@ -877,7 +925,22 @@ const fetchVotes = async () => {
 
     <button
       disabled={personalityVote !== null}
-      onClick={() => setPersonalityVote("terremoto")}
+      onClick={async () => {
+        if (personalityVote) return;
+      
+        setPersonalityVote("terremoto");
+        localStorage.setItem("vote_personalidad", "dormilona");
+      
+        await supabase.from("votes").insert([
+          {
+            guest_name: localStorage.getItem("guestName") || "Invitado",
+            question: "personalidad",
+            answer: "terremoto",
+          },
+        ]);
+      
+        fetchVotes();
+      }}
       className={`rounded-[22px] p-3 border transition active:scale-95 hover:scale-[1.02] duration-300 ${
         personalityVote === "terremoto"
           ? "bg-[#FFF3EC] border-[#F7D7C4]"
@@ -890,10 +953,14 @@ const fetchVotes = async () => {
     </button>
   </div>
 
+  <p className="text-sm text-[#7A5C58] mt-3">
+  ✨ {dormilonaCount + terremotoCount} votos
+</p>
+
   {personalityVote && (
     <div className="mt-5">
-      <ResultBar label="Dormilona" value={dormilonaVotes} />
-      <ResultBar label="Terremoto" value={terremotoVotes} />
+      <ResultBar label="Dormilona" value={dormilonaPercent} />
+      <ResultBar label="Terremoto" value={terremotoPercent} />
     </div>
   )}
   </div>
