@@ -645,6 +645,7 @@ function Itinerario({
 
 function Predicciones() {
   const [vote, setVote] = useState<"mama" | "papa" | null>(null);
+  const [voteSent, setVoteSent] = useState(false);
   const [birthDate, setBirthDate] = useState("");
 const [birthDateSent, setBirthDateSent] = useState(false);
 
@@ -652,13 +653,29 @@ const [birthDateSent, setBirthDateSent] = useState(false);
   "dormilona" | "terremoto" | null
 >(null);
 
-  const mamaVotes = vote === "mama" ? 58 : 48;
-  const papaVotes = vote === "papa" ? 52 : 42;
+const [mamaVotes, setMamaVotes] = useState(0);
+const [papaVotes, setPapaVotes] = useState(0);
 
-  const totalParecidoVotes = mamaVotes + papaVotes;
-  
-  const dormilonaVotes = personalityVote === "dormilona" ? 61 : 54;
-const terremotoVotes = personalityVote === "terremoto" ? 39 : 31;
+const totalParecidoVotes = mamaVotes + papaVotes;
+
+useEffect(() => {
+  fetchVotes();
+}, []);
+
+const fetchVotes = async () => {
+  const { data, error } = await supabase
+    .from("votes")
+    .select("*")
+    .eq("question", "parecido");
+
+  if (error || !data) return;
+
+  const mama = data.filter((v) => v.answer === "mama").length;
+  const papa = data.filter((v) => v.answer === "papa").length;
+
+  setMamaVotes(mama);
+  setPapaVotes(papa);
+};
 
   return (
     <section>
@@ -695,7 +712,25 @@ const terremotoVotes = personalityVote === "terremoto" ? 39 : 31;
         <div className="grid grid-cols-2 gap-3">
           <button
             disabled={vote !== null}
-            onClick={() => setVote("mama")}
+            onClick={async () => {
+              if (voteSent) return;
+            
+              setVote("mama");
+            
+              await supabase.from("votes").insert([
+                {
+                  guest_name: localStorage.getItem("guestName") || "Invitado",
+                  question: "parecido",
+                  answer: "mama",
+                },
+              ]);
+            
+              setVoteSent(true);
+
+              await fetchVotes();
+
+            }}
+          
             className={`rounded-[28px] p-4 border transition active:scale-95 hover:scale-[1.02] duration-300 ${
               vote === "mama"
                 ? "bg-[#FFF3EC] border-[#F7D7C4]"
@@ -714,7 +749,25 @@ const terremotoVotes = personalityVote === "terremoto" ? 39 : 31;
 
           <button
             disabled={vote !== null}
-            onClick={() => setVote("papa")}
+            onClick={async () => {
+              if (voteSent) return;
+            
+              setVote("papa");
+            
+              await supabase.from("votes").insert([
+                {
+                  guest_name: localStorage.getItem("guestName") || "Invitado",
+                  question: "parecido",
+                  answer: "papa",
+                },
+              ]);
+            
+              setVoteSent(true);
+
+              await fetchVotes();
+
+            }}
+            
             className={`rounded-[28px] p-4 border transition active:scale-95 hover:scale-[1.02] duration-300 ${
               vote === "papa"
                 ? "bg-[#FFF3EC] border-[#F7D7C4]"
