@@ -646,6 +646,14 @@ function Itinerario({
 function Predicciones() {
   const [vote, setVote] = useState<"mama" | "papa" | null>(null);
   const [voteSent, setVoteSent] = useState(false);
+  useEffect(() => {
+    const savedVote = localStorage.getItem("vote_parecido");
+  
+    if (savedVote === "mama" || savedVote === "papa") {
+      setVote(savedVote);
+      setVoteSent(true);
+    }
+  }, []);
   const [birthDate, setBirthDate] = useState("");
 const [birthDateSent, setBirthDateSent] = useState(false);
 
@@ -725,6 +733,7 @@ const fetchVotes = async () => {
               if (voteSent) return;
             
               setVote("mama");
+              localStorage.setItem("vote_parecido", "mama");
             
               await supabase.from("votes").insert([
                 {
@@ -762,6 +771,7 @@ const fetchVotes = async () => {
               if (voteSent) return;
             
               setVote("papa");
+              localStorage.setItem("vote_parecido", "papa");
             
               await supabase.from("votes").insert([
                 {
